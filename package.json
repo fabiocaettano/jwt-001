@@ -1,0 +1,25 @@
+{
+  "name": "jwt-001",
+  "version": "1.0.0",
+  "description": "RestFul com NodeJs e Autenticação com JWT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabiocaettano/jwt-001.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fabiocaettano/jwt-001/issues"
+  },
+  "homepage": "https://github.com/fabiocaettano/jwt-001#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20"
+  }
+}

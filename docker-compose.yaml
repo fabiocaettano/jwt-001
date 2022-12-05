@@ -1,0 +1,40 @@
+version: '3.7'
+
+networks:
+  network-node:
+    driver: bridge 
+
+services:
+  app:    
+    container_name: app
+    build:
+      context: .      
+      dockerfile: 'Dockerfile'      
+      target: dev
+    command: sh -c "npm run dev"
+    ports:
+      - 5000:5000
+    networks:
+      - network-node
+    env_file:
+      - .env
+    working_dir: /usr/src/app          
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0    
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}      
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    networks:
+      - network-node    
