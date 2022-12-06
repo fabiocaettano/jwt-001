@@ -13,7 +13,7 @@ services:
       target: dev
     command: sh -c "npm run dev"
     ports:
-      - 5000:5000
+      - 8080:8080
     networks:
       - network-node
     env_file:

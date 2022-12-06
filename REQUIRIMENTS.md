@@ -57,9 +57,11 @@ touch .gitignore
 
 touch .dockerignore
 
+touch server.js
+
 ## Dependências
 
 npm install dotenv --sasve
-
+npm install nodemon --save
 
 
