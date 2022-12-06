@@ -61,7 +61,5 @@ touch server.js
 
 ## Dependências
 
-npm install dotenv --sasve
-npm install nodemon --save
-
+npm install dot env nodemon express express-validator mysql body-parser jsonwebtoken bcryptjs cors --save
 
