@@ -30,9 +30,9 @@ jwt.sign({id: user.id},'segredo',{ expiresIn: '1m' });
 <p>Quando um usuário for executar algum procedimento que necessita de autenticação, é necessário validar o token.</p>
 
 <p>Para validar o token é necessário utilizar o <b>jwt.verify</b>, ele recebe 02 parâmetros.</p>
-<p>O primeiro parâmetro é o token, que é cabaptado do Headers Http</p>.
+<p>O primeiro parâmetro é o token, que é captado do Headers Http</p>.
 <p>No segundo parâmetro é informado a palavra secreta.</p>
-<p>No exemplo abaixo a variável <b>decode</d> é instanciada por <b>jwt.verify</b></p>.
+<p>No exemplo abaixo a variável <b>decode</b> é instanciada por <b>jwt.verify</b></p>.
 <p>Nesta variável é onde podemos captar os valores do payload</p>.
 
 ``` js
