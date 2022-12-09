@@ -1,52 +1,42 @@
-# jwt-001
-RestFul com NodeJs e Autenticação com JWT
+# Autenticação com JWT
 
 ## Preparar Ambiente
 
 
-## Container Banco de Dados
+## JWT
 
-``` bash
-$ cd jwt-001
+<p>Autenticação com JWT utiliza duas etapas.</p>
+<p>Na primeira  é gerado um token com o recurso **jwt.sign**.</p>
+<p>E para checar se ocorreu autentincação é utilizado o recurso o **jwt.verify**.</p>
 
-$ docker-compose up -d --build
+### Sign
 
-$ docker-compose ps
+<p>Exemplo de um código:</p>
 
-$ docker container ls
-
-$ docker exec idDoContainerMysql /bin/bash
-
-bash#  mysql -u root -p
-
-mysql > show databases
-
-mysql > use node-app
-
-mysql > CREATE TABLE users (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  name varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  email varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  password varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY email (email)
- ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
- mysql > show tables;
-
- mysql > desc users;
-
- mysql > exit;
-
- bash# exit
-
- $
+``` js
+jwt.sign({id: user.id},'segredo',{ expiresIn: '1m' });                
 ```
-## Container APP
 
-```
-$ docker container ls
+<p>O primeiro parâmetro é o payload, onde pode ser passado valores que poderão ser captados.</p>
 
-$ docker logs idContainerApp
+<p>O segundo parâmetro informamos um segredo, que será utilizado para gerar o token.</p>
 
+<p>E no terceiro parâmetro é configurado o tempo de expiração do token.</p>
+
+### Verify
+
+<p>Um usuário se identificar em algum aplicativo, o procecimento <b>jwt.sign</b> é chamado para gerar o token.</p>
+
+<p>Quando um usuário for executar algum procedimento que necessita de autenticação, é necessário validar o token.</p>
+
+<p>Para validar o token é necessário utilizar o <b>jwt.verify</b>, ele recebe 02 parâmetros.</p>
+<p>O primeiro parâmetro é o token, que é cabaptado do Headers Http</p>.
+<p>No segundo parâmetro é informado a palavra secreta.</p>
+<p>No exemplo abaixo a variável <b>decode</d> é instanciada por <b>jwt.verify</b></p>.
+<p>Nesta variável é onde podemos captar os valores do payload</p>.
+
+``` js
+const theToken = req.headers.authorization.split(' ')[1];
+const decoded = jwt.verify(theToken, 'the-super-strong-secrect');
+console.log(decoded.id)
 ```

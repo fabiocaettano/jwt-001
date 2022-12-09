@@ -18,7 +18,7 @@ router.post('/register', signupValidation, (req, res, next) => {
                 return res.status(500).send({msg: err});
             } else {    
                 // has hashed pw => add to database
-                db.query(`INSERT INTO users (name, email, password) VALUES ('${req.body.name}', ${db.escape(req.body.email)}, ${db.escape(hash)})`,
+                db.query(`INSERT INTO users (name, email, password, last_login) VALUES ('${req.body.name}', ${db.escape(req.body.email)}, ${db.escape(hash)}, now())`,
                 (err, result) => {
                     if (err) {
                     //throw err;
@@ -29,9 +29,10 @@ router.post('/register', signupValidation, (req, res, next) => {
             } 
         });
     }});
-});
+d});
 
 router.post('/login', loginValidation, (req, res, next) => {
+
     db.query(`SELECT * FROM users WHERE email = ${db.escape(req.body.email)};`,
     (err, result) => {
         // user does not exists
@@ -53,9 +54,10 @@ router.post('/login', loginValidation, (req, res, next) => {
                 return res.status(401).send({msg: 'Email or password is incorrect!'});
             }
         
-            if (bResult) {            
-                const token = jwt.sign({id:result[0].id},'the-super-strong-secrect',{ expiresIn: '1h' });
-            
+            if (bResult) {                            
+                
+                const token = jwt.sign({id:result[0].id},'the-super-strong-secrect',{ expiresIn: '1m' });                
+                            
                 db.query(`UPDATE users SET last_login = now() WHERE id = '${result[0].id}'`);
                 
                 return res.status(200).send({msg: 'Logged in!',token,user: result[0]});
@@ -71,13 +73,16 @@ router.post('/get-user', signupValidation, (req, res, next) => {
     if(!req.headers.authorization || !req.headers.authorization.startsWith('Bearer') ||  !req.headers.authorization.split(' ')[1]){
         return res.status(422).json({message: "Please provide the token",});
     }
-
+   
+    console.log(req.headers.authorization.split(' ')[1]);
     const theToken = req.headers.authorization.split(' ')[1];
     const decoded = jwt.verify(theToken, 'the-super-strong-secrect');
     
     db.query('SELECT * FROM users where id=?', decoded.id, function (error, results, fields) {
+        
         if (error) throw error;
-            return res.send({ error: false, data: results[0], message: 'Fetch Successfully.' });
+            
+        return res.send({ error: false, data: results[0], message: 'Fetch Successfully.' });
     });
 });
 
